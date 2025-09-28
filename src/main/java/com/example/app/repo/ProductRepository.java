@@ -1,0 +1,20 @@
+package com.example.app.repo;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Repository;
+
+@Repository
+public interface ProductRepository extends JpaRepository<Product, Long>{
+	
+	@Query("SELECT p.price FROM Product p WHERE p.productId = :prodId")
+	public Double getProductPriceById(@Param("prodId") Long prodId);
+	
+	@Query("SELECT p.quantity FROM Product p WHERE p.productId = :prodId")
+	public Integer getProductQuantityById(@Param("prodId") Long prodId);
+	
+	//write update quantity custom query
+	//update service and controller accordingly
+	//enable quantity decerement on order
+}
