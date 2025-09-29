@@ -65,10 +65,11 @@ public class ProductController {
 		return productService.getProductQuantityById(productId);
 	}
 	
-	@PatchMapping("/updateProductQuantityById/{prodId}-{quantity}")
-	public void updateProductQuantityById(
+	@PutMapping("/updateProductQuantityById/{prodId}-{quantity}")
+	public String updateProductQuantityById(
 			@PathVariable("prodId") Long productId,
 			@PathVariable("quantity") Integer updatedQuantity) {
 		productService.updateProductQuantityById(productId, updatedQuantity);
+		return "";
 	}
 }
