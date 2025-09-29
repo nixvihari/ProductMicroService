@@ -60,4 +60,8 @@ public class ProductService {
 	public Integer getProductQuantityById(Long productId) {
 		return productRepository.getProductQuantityById(productId);
 	}
+	
+	public void updateProductQuantityById(Long prodId, Integer updatedQuantity) {
+		productRepository.updateProductQuantityById(prodId, updatedQuantity);
+	}
 }

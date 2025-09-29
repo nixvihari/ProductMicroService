@@ -1,9 +1,12 @@
 package com.example.app.repo;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+
+import jakarta.transaction.Transactional;
 
 @Repository
 public interface ProductRepository extends JpaRepository<Product, Long>{
@@ -15,6 +18,10 @@ public interface ProductRepository extends JpaRepository<Product, Long>{
 	public Integer getProductQuantityById(@Param("prodId") Long prodId);
 	
 	//write update quantity custom query
-	//update service and controller accordingly
-	//enable quantity decerement on order
+	@Modifying
+	@Transactional
+	@Query("UPDATE Product p SET p.quantity = :updatedQuantity WHERE p.productId = :prodId")
+	public void updateProductQuantityById(
+			@Param("prodId") Long productId,
+			@Param("updatedQuantity") Integer updatedQuantity);
 }
