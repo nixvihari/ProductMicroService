@@ -47,7 +47,7 @@ public class ProductController {
 		return productService.updateProductById(prodId, product);
 	}
 	
-	@DeleteMapping("/deleteProduct/{prodID}")
+	@DeleteMapping("/deleteProduct/{prodId}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void deleteProduct(@PathVariable("prodId") Long prodId) {
 		productService.deleteProduct(prodId);
