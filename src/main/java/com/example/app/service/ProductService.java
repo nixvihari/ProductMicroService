@@ -6,6 +6,8 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.example.app.exception.BadRequestException;
+import com.example.app.exception.ProductNotFoundException;
 import com.example.app.repo.Product;
 import com.example.app.repo.ProductRepository;
 
@@ -28,7 +30,12 @@ public class ProductService {
 	}
 	
 	public Optional<Product> getProductById(Long productId) {
-		return productRepository.findById(productId);
+		if (productId <= 0)
+			throw new BadRequestException("Product ID must be a valid positive integer.");
+		Optional<Product> product = productRepository.findById(productId);
+		if (product.isEmpty())
+			throw new ProductNotFoundException("Product with ID "+ productId + " was not found or does not exist." );
+		return product;
 	}
 	
 	public Product addProduct(Product product) {
@@ -36,10 +43,14 @@ public class ProductService {
 	}
 	
 	public void deleteProduct(Long productId) {
+		if (productId <= 0) throw new BadRequestException("Product ID must be a valid positive integer.");
+		
 		productRepository.deleteById(productId);
 	}
 	
 	public Product updateProductById(Long productId, Product inputProduct) {
+		if (productId <= 0) throw new BadRequestException("Product ID must be a valid positive integer.");
+		
 		Optional<Product> existingProductContainer = productRepository.findById(productId);
 		if (existingProductContainer.isPresent()) {
 			Product existingProduct = existingProductContainer.get();
@@ -54,14 +65,20 @@ public class ProductService {
 	//custom queries implmentation
 	
 	public Double getProductPriceById(Long productId) {
+		if (productId <= 0) throw new BadRequestException("Product ID must be a valid positive integer.");
+		
 		return productRepository.getProductPriceById(productId);
 	}
 	
 	public Integer getProductQuantityById(Long productId) {
+		if (productId <= 0) throw new BadRequestException("Product ID must be a valid positive integer.");
+		
 		return productRepository.getProductQuantityById(productId);
 	}
 	
 	public void updateProductQuantityById(Long prodId, Integer updatedQuantity) {
+		if (prodId <= 0) throw new BadRequestException("Product ID must be a valid positive integer.");
+		
 		productRepository.updateProductQuantityById(prodId, updatedQuantity);
 	}
 }
